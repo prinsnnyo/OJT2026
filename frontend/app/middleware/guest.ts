@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware(() => {
-  const { isAuthenticated } = useAuth()
+  const auth = useAuth()
 
-  if (isAuthenticated.value) {
+  if (auth.isAuthenticated.value) {
     return navigateTo('/todos')
   }
 })
