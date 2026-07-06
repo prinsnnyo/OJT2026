@@ -3,21 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "description": "OJT Todo App — Nuxt frontend + NestJS backend + PostgreSQL",
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
-    "install:all": "npm install",
-    "dev:backend": "npm run start:dev -w backend",
-    "dev:frontend": "npm run dev -w frontend",
-    "build:backend": "npm run build -w backend",
-    "build:frontend": "npm run build -w frontend",
-    "db:generate": "npm exec -w backend prisma generate",
-    "db:migrate": "npm exec -w backend prisma migrate dev",
-    "db:seed": "npm exec -w backend prisma db seed",
-    "db:studio": "npm exec -w backend prisma studio",
-    "prepare:frontend": "npm run postinstall -w frontend"
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "dev:backend": "npm run start:dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "db:generate": "npm run db:generate --prefix backend",
+    "db:migrate": "npm run db:migrate --prefix backend",
+    "db:seed": "npm run db:seed --prefix backend",
+    "db:studio": "npm run db:studio --prefix backend",
+    "prepare:frontend": "npm run postinstall --prefix frontend"
   },
   "engines": {
     "node": ">=20.0.0",
