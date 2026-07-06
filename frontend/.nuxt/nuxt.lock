@@ -1,9 +1,0 @@
-{
-  "pid": 20732,
-  "startedAt": 1783323222435,
-  "command": "dev",
-  "cwd": "C:/Users/Carlo/Desktop/todo/OJT2026/frontend",
-  "port": 3000,
-  "hostname": "::1",
-  "url": "http://[::1]:3000"
-}

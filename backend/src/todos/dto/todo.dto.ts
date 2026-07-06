@@ -1,27 +1,36 @@
-import { IsBoolean, IsOptional, IsString, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateTodoDto {
   @IsString()
-  @IsOptional()
   @MinLength(1)
-  title?: string;
+  @MaxLength(100)
+  title: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
+  @MaxLength(500)
   description?: string;
 }
 
 export class UpdateTodoDto {
-  @IsString()
   @IsOptional()
+  @IsString()
   @MinLength(1)
+  @MaxLength(100)
   title?: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
+  @MaxLength(500)
   description?: string;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   completed?: boolean;
 }
