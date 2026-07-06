@@ -7,11 +7,12 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateTodoDto, UpdateTodoDto } from './dto/todo.dto';
+import { CreateTodoDto, QueryTodoDto, UpdateTodoDto } from './dto/todo.dto';
 import { TodosService } from './todos.service';
 
 @Controller('todos')
@@ -20,8 +21,16 @@ export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
   @Get()
-  findAll(@Request() req: { user: { userId: string } }) {
-    return this.todosService.findAll(req.user.userId);
+  findAll(
+    @Request() req: { user: { userId: string } },
+    @Query() query: QueryTodoDto,
+  ) {
+    return this.todosService.findAll(req.user.userId, query);
+  }
+
+  @Get('stats')
+  getStats(@Request() req: { user: { userId: string } }) {
+    return this.todosService.getStats(req.user.userId);
   }
 
   @Get(':id')
@@ -58,3 +67,4 @@ export class TodosController {
     return this.todosService.remove(req.user.userId, id);
   }
 }
+

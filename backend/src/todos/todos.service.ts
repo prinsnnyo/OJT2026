@@ -1,16 +1,48 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateTodoDto, UpdateTodoDto } from './dto/todo.dto';
+import { CreateTodoDto, QueryTodoDto, UpdateTodoDto } from './dto/todo.dto';
 
 @Injectable()
 export class TodosService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(userId: string) {
-    return this.prisma.todo.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
+  async findAll(userId: string, query: QueryTodoDto) {
+    const { page = 1, limit = 10, search, completed } = query;
+    const skip = (page - 1) * limit;
+
+    const where: Prisma.TodoWhereInput = { userId };
+
+    if (completed !== undefined) {
+      where.completed = completed;
+    }
+
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    const [data, total] = await Promise.all([
+      this.prisma.todo.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.todo.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findOne(userId: string, id: string) {
@@ -49,4 +81,18 @@ export class TodosService {
 
     await this.prisma.todo.delete({ where: { id } });
   }
+
+  async getStats(userId: string) {
+    const [total, completed] = await Promise.all([
+      this.prisma.todo.count({ where: { userId } }),
+      this.prisma.todo.count({ where: { userId, completed: true } }),
+    ]);
+
+    return {
+      total,
+      completed,
+      pending: total - completed,
+    };
+  }
 }
+

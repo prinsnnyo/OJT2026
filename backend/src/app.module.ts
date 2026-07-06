@@ -33,7 +33,8 @@ class AppController {
             border: 1px solid rgba(148, 163, 184, 0.1);
             border-radius: 1rem;
             backdrop-filter: blur(10px);
-            max-width: 500px;
+            max-width: 520px;
+            width: 100%;
           }
           .badge {
             display: inline-block;
@@ -47,28 +48,36 @@ class AppController {
             margin-bottom: 1rem;
           }
           h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-          p { color: #94a3b8; margin-bottom: 2rem; }
+          p { color: #94a3b8; margin-bottom: 1.5rem; }
+          h3 { color: #94a3b8; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 1rem 0 0.5rem; text-align: left; }
           .endpoints { text-align: left; }
           .endpoint {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.75rem;
             background: rgba(15, 23, 42, 0.6);
             border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
             font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
           }
           .method {
-            background: #3b82f6;
             color: #fff;
             padding: 0.15rem 0.5rem;
             border-radius: 0.25rem;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 700;
             flex-shrink: 0;
+            min-width: 52px;
+            text-align: center;
           }
+          .post { background: #22c55e; }
+          .get { background: #3b82f6; }
+          .put { background: #f59e0b; }
+          .patch { background: #8b5cf6; }
+          .delete { background: #ef4444; }
+          .lock { font-size: 0.65rem; margin-left: auto; opacity: 0.5; }
         </style>
       </head>
       <body>
@@ -77,8 +86,19 @@ class AppController {
           <h1>OJT Todo API</h1>
           <p>NestJS + Prisma + PostgreSQL</p>
           <div class="endpoints">
-            <div class="endpoint"><span class="method">POST</span> /auth/register</div>
-            <div class="endpoint"><span class="method">POST</span> /auth/login</div>
+            <h3>Auth</h3>
+            <div class="endpoint"><span class="method post">POST</span> /auth/register</div>
+            <div class="endpoint"><span class="method post">POST</span> /auth/login</div>
+            <div class="endpoint"><span class="method get">GET</span> /auth/me <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method put">PUT</span> /auth/me <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method patch">PATCH</span> /auth/change-password <span class="lock">🔒</span></div>
+            <h3>Todos</h3>
+            <div class="endpoint"><span class="method get">GET</span> /todos <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method get">GET</span> /todos/stats <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method get">GET</span> /todos/:id <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method post">POST</span> /todos <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method put">PUT</span> /todos/:id <span class="lock">🔒</span></div>
+            <div class="endpoint"><span class="method delete">DELETE</span> /todos/:id <span class="lock">🔒</span></div>
           </div>
         </div>
       </body>

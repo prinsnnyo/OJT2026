@@ -1,10 +1,14 @@
 import {
   IsBoolean,
+  IsInt,
   IsOptional,
   IsString,
+  Max,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateTodoDto {
   @IsString()
@@ -34,3 +38,32 @@ export class UpdateTodoDto {
   @IsBoolean()
   completed?: boolean;
 }
+
+export class QueryTodoDto {
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number = 1;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  limit?: number = 10;
+
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  @IsBoolean()
+  completed?: boolean;
+}
+
