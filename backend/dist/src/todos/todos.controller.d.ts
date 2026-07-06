@@ -9,12 +9,12 @@ export declare class TodosController {
         };
     }): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         description: string | null;
         completed: boolean;
         userId: string;
-        createdAt: Date;
-        updatedAt: Date;
     }[]>;
     findOne(req: {
         user: {
@@ -22,12 +22,12 @@ export declare class TodosController {
         };
     }, id: string): Promise<{
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         description: string | null;
         completed: boolean;
         userId: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     create(req: {
         user: {
@@ -35,12 +35,12 @@ export declare class TodosController {
         };
     }, dto: CreateTodoDto): import("@prisma/client").Prisma.Prisma__TodoClient<{
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         description: string | null;
         completed: boolean;
         userId: string;
-        createdAt: Date;
-        updatedAt: Date;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     update(req: {
         user: {
@@ -48,12 +48,12 @@ export declare class TodosController {
         };
     }, id: string, dto: UpdateTodoDto): Promise<{
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         description: string | null;
         completed: boolean;
         userId: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     remove(req: {
         user: {
