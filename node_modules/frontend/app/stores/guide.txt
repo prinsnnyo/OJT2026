@@ -1,0 +1,34 @@
+Stores guide
+
+Purpose:
+- Keep shared client state in one place.
+- Make data available across pages and components without prop drilling.
+- Use Nuxt composables and useState for shared state in this project.
+
+Current convention:
+- This app does not use Pinia.
+- Shared state lives inside composables such as useAuth and useTodos.
+- Local UI-only state should stay inside the component that owns it.
+
+When to add shared state:
+- Multiple components need the same reactive data.
+- The state should survive navigation during the current session.
+- The value is derived from authenticated user actions or API results.
+
+Store rules:
+- Keep state minimal and typed.
+- Store only what must be shared, not every intermediate UI flag.
+- Use refs for local loading and error state when the state is component-specific.
+- Reset sensitive state on logout.
+- Re-fetch server state after operations that may invalidate the cache.
+
+Recommended patterns:
+- useState('auth_user', () => null) for authenticated user data.
+- useState('todos', () => []) for shared todo lists.
+- computed() for derived values such as isAuthenticated.
+- Cookie-backed state for auth tokens when persistence is required.
+
+Avoid:
+- Duplicating API response state in multiple places.
+- Putting presentation-only state into a shared store.
+- Mixing network logic and UI rendering in the same place.

@@ -32,11 +32,6 @@ const { handleSubmit, defineField, errors } = useForm({
 const [email] = defineField('email')
 const [password] = defineField('password')
 
-function fillDemoAccount() {
-  email.value = 'demo@ojt.com'
-  password.value = 'demo123'
-}
-
 const onSubmit = handleSubmit(async (values) => {
   errorMessage.value = null
   isSubmitting.value = true
@@ -60,7 +55,7 @@ const onSubmit = handleSubmit(async (values) => {
       <CardHeader>
         <CardTitle>Sign in</CardTitle>
         <CardDescription>
-          Log in to manage your todo list
+          Log in to enter the intern training workspace
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -104,22 +99,6 @@ const onSubmit = handleSubmit(async (values) => {
             {{ isSubmitting ? 'Signing in...' : 'Sign in' }}
           </Button>
         </form>
-
-        <p class="mt-4 rounded-md bg-muted p-3 text-center text-sm text-muted-foreground">
-          Demo account:
-          <code class="text-foreground">demo@ojt.com</code> / <code class="text-foreground">demo123</code>
-          <br>
-          <Button type="button" variant="link" class="mt-1 h-auto p-0" @click="fillDemoAccount">
-            Click to fill demo credentials
-          </Button>
-        </p>
-
-        <p class="mt-4 text-center text-sm text-muted-foreground">
-          No account?
-          <NuxtLink to="/register" class="text-primary underline-offset-4 hover:underline">
-            Register
-          </NuxtLink>
-        </p>
       </CardContent>
     </Card>
   </div>
