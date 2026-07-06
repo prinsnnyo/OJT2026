@@ -6,37 +6,29 @@ import { CreateTodoDto, UpdateTodoDto } from './dto/todo.dto';
 export class TodosService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(userId: string) {
+  async list(userId: string) {
     return this.prisma.todo.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(userId: string, id: string) {
-    const todo = await this.prisma.todo.findFirst({
-      where: { id, userId },
-    });
-
-    if (!todo) {
-      throw new NotFoundException('Todo not found');
-    }
-
-    return todo;
-  }
-
-  create(userId: string, dto: CreateTodoDto) {
+  async create(userId: string, dto: CreateTodoDto) {
     return this.prisma.todo.create({
       data: {
-        title: dto.title,
-        description: dto.description,
+        title: dto.title ?? '',
+        description: dto.description ?? null,
         userId,
       },
     });
   }
 
   async update(userId: string, id: string, dto: UpdateTodoDto) {
-    await this.findOne(userId, id);
+    const existing = await this.prisma.todo.findFirst({ where: { id, userId } });
+
+    if (!existing) {
+      throw new NotFoundException('Todo not found');
+    }
 
     return this.prisma.todo.update({
       where: { id },
@@ -45,7 +37,11 @@ export class TodosService {
   }
 
   async remove(userId: string, id: string) {
-    await this.findOne(userId, id);
+    const existing = await this.prisma.todo.findFirst({ where: { id, userId } });
+
+    if (!existing) {
+      throw new NotFoundException('Todo not found');
+    }
 
     await this.prisma.todo.delete({ where: { id } });
   }

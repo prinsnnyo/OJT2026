@@ -3,11 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
   Post,
   Put,
-  Request,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -20,41 +19,26 @@ export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
   @Get()
-  findAll(@Request() req: { user: { userId: string } }) {
-    return this.todosService.findAll(req.user.userId);
-  }
-
-  @Get(':id')
-  findOne(
-    @Request() req: { user: { userId: string } },
-    @Param('id') id: string,
-  ) {
-    return this.todosService.findOne(req.user.userId, id);
+  list(@Req() req: { user: { id: string } }) {
+    return this.todosService.list(req.user.id);
   }
 
   @Post()
-  create(
-    @Request() req: { user: { userId: string } },
-    @Body() dto: CreateTodoDto,
-  ) {
-    return this.todosService.create(req.user.userId, dto);
+  create(@Req() req: { user: { id: string } }, @Body() dto: CreateTodoDto) {
+    return this.todosService.create(req.user.id, dto);
   }
 
   @Put(':id')
   update(
-    @Request() req: { user: { userId: string } },
+    @Req() req: { user: { id: string } },
     @Param('id') id: string,
     @Body() dto: UpdateTodoDto,
   ) {
-    return this.todosService.update(req.user.userId, id, dto);
+    return this.todosService.update(req.user.id, id, dto);
   }
 
   @Delete(':id')
-  @HttpCode(204)
-  remove(
-    @Request() req: { user: { userId: string } },
-    @Param('id') id: string,
-  ) {
-    return this.todosService.remove(req.user.userId, id);
+  remove(@Req() req: { user: { id: string } }, @Param('id') id: string) {
+    return this.todosService.remove(req.user.id, id);
   }
 }
